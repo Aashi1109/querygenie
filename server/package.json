@@ -1,0 +1,50 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server:seed": "ts-node -r tsconfig-paths/register misc/seeder.ts",
+    "server:dev": "nodemon --exec ts-node -r tsconfig-paths/register index.ts",
+    "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./dist "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@bull-board/express": "^5.18.3",
+    "@prisma/client": "^5.14.0",
+    "@qdrant/js-client-rest": "^1.9.0",
+    "axios": "^1.7.2",
+    "bullmq": "^5.7.12",
+    "callsite": "^1.0.0",
+    "cloudinary": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "joi": "^17.13.1",
+    "js-tiktoken": "^1.0.12",
+    "morgan": "^1.10.0",
+    "openai": "^4.47.1",
+    "pdf-parse": "^1.1.1",
+    "socket.io": "^4.7.5",
+    "tsconfig-paths": "^4.2.0",
+    "tscpaths": "^0.0.9",
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.12.12",
+    "@types/pdf-parse": "^1.1.4",
+    "@types/uuid": "^9.0.8",
+    "nodemon": "^3.1.0",
+    "prisma": "^5.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

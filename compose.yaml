@@ -1,0 +1,39 @@
+services:
+  querygenie-client:
+    build:
+      context: client
+    image: aashishpal09/querygenie-client:1.0.0
+    container_name: querygenie-client
+    env_file:
+      - ./client/.env.prod
+    ports:
+      - 3000:3000
+    restart: always
+    depends_on:
+      querygenie-server:
+        condition: service_healthy
+    volumes:
+      - ./data/logs:/app/logs
+
+  querygenie-server:
+    build:
+      context: server
+    image: aashishpal09/querygenie-server:1.0.0
+    container_name: querygenie-server
+    env_file:
+      - ./server/.env.prod
+    environment:
+      DATABASE_URL: postgresql://root:root@postgres:5432/querygenie?schema=public
+    ports:
+      - 5000:5000
+    restart: always
+    #    depends_on:
+    #      postgres:
+    #        condition: service_healthy
+    #      redis:
+    #        condition: service_healthy
+    #      qdrant:
+    #        condition: service_healthy
+    volumes:
+      - ./data/logs:/app/logs
+

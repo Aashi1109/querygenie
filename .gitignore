@@ -1,0 +1,8 @@
+/dist
+/out
+.env*
+.vscode
+node_modules
+migrations
+data
+/logs

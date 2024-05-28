@@ -1,0 +1,77 @@
+          <div className="flex">
+            <div
+              onClick={() => setToggleDropdown((prev) => !prev)}
+              className={"cursor-pointer"}
+            >
+              <TooltipWrapper tooltipText={session.user.name || "User"}>
+                <FallbackAvatar
+                  imagePath={session.user.image ?? ""}
+                  size={37}
+                  fallbackText={session.user.name ?? "QG"}
+                  altText={"profile"}
+                />
+              </TooltipWrapper>
+            </div>
+
+            {toggleDropdown && (
+              <div className="dropdown">
+                <div
+                  className="dropdown_link text-foreground"
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  <UserProfileSheet
+                    user={session.user}
+                    trigger={
+                      // <TooltipWrapper tooltipText={""}>
+                      <div>My profile</div>
+                      // </TooltipWrapper>
+                    }
+                  />
+                </div>
+
+                <CreateProjectActionModal />
+
+                <Button
+                  type="button"
+                  className="mt-0 sm:mt-5 rounded-full"
+                  onClick={() => {
+                    setToggleDropdown(false);
+                    signOut();
+                  }}
+                >
+                  Sign out
+                </Button>
+              </div>
+            )}
+          </div>
+
+
+
+<DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarImage
+                  src={session.user.image}
+                  alt={"profile"}
+                  height={37}
+                  width={37}
+                  className={"rounded-full"}
+                />
+                <AvatarFallback>{session.user.name}</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent>
+              <DropdownMenuLabel className={"cursor-pointer"}>
+                My Profile
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => setOpenCreateDialog(true)}>
+                <CreateProjectActionModal dialogOpen={openCreateDialog} />
+                Create Project
+              </DropdownMenuItem>
+              <DropdownMenuItem className={"cursor-pointer"} onClick={signOut}>
+                Signout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>

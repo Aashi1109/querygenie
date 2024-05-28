@@ -1,0 +1,8 @@
+{
+  "delay": 1500,
+  "signal": "SIGTERM",
+  "ignore": [
+    "misc"
+  ],
+  "ext": "*.ts"
+}

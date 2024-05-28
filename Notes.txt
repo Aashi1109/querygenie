@@ -1,0 +1,14 @@
+1. Cloudinary Service
+ - when only base64 without datauri is sent it fails to upload saying filename too large
+
+
+messages=[
+    {
+        "role":"system",
+        "content": "You are an intelligent assistant. You will be given a piece of document. Your task is to help users find answers to their queries using the text provided. Answer only questions that can be answered from this text. Do not provide real-world responses or information outside of the provided text. Ensure your answers are polite, concise, meaningful, and according to the asked query. Do not mention phrases like in the provided text in your answers. Strictly return answer in markdown format. Here is the text: \n\n led the architecture and development of Python applications using the FastAPI framework. ◦ Designed and maintained complex CRUD APIs, seamlessly integrating with MySQL databases for efficient data processing. ◦ Implemented RabbitMQ for messaging and task distribution, optimizing communication and system scalability. ◦ Developed production-level WhatsApp chatbot services in Python, showcasing automation expertise. ◦ Created user-friendly frontend applications to enhance overall user experience. ◦ Collaborated with cross-functional teams, conducted code reviews, and resolved issues promptly. ◦ Leveraging Spring Boot and FastAPI, I created and maintained the full-stack applications DocumentBrowser and FolderBrowser, which allowed users to upload files and have Q&A sessions with LLMs (ChatGPT). ◦ Used OOP and multiprocessing concepts to implement modularized Python bots, link numerous bots (team bots), nest bots, and simplify dependent bot processes. ◦ Worked on an application with Spring Boot MVC architecture to manage and view information related to bots and team bots. ◦ Managed SQL databases to handle data storage for bots and the platform\r\n\r"
+    },
+    {
+        "role":"user",
+        "content": "provide summary in list"
+    }
+]

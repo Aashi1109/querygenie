@@ -1,0 +1,10 @@
+log
+.env*
+node_modules
+temp
+misc
+build
+dist
+.git
+*.md
+.gitignore
