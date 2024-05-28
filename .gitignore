@@ -6,3 +6,4 @@ node_modules
 migrations
 data
 /logs
+.next

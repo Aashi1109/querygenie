@@ -36,15 +36,15 @@ const Projects = ({
     };
 
     let runningInterval: string | number | NodeJS.Timeout | undefined;
-    if (isInProgressProjectsPresent)
-      runningInterval = setInterval(fetchData, 3000);
+    // if (isInProgressProjectsPresent)
+    runningInterval = setInterval(fetchData, 3000);
 
     return () => {
       clearInterval(runningInterval);
     };
   });
   return (
-    <div className={" prompt_layout"}>
+    <div className={"prompt_layout"}>
       {projectData.map((project) => (
         <ProjectCard
           key={project.id}
