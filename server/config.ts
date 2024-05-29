@@ -59,7 +59,11 @@ const config = {
   },
   embeddingModel: "GTE-Large",
   OPEN_API_KEY: process.env.OPEN_API_KEY,
-  LOG_DIR: process.env.LOG_DIR || "./log/",
+  LOG_DIR: process.env.LOG_DIR || "./logs/",
+  QDRANT: {
+    host: process.env.QDRANT_HOST || "localhost",
+    port: +process.env.QDRANT_PORT || 6333,
+  },
 };
 
 export default config;

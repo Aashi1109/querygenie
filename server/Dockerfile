@@ -1,5 +1,9 @@
 FROM node:22-alpine3.20
 
+ARG DATABASE_URL
+
+RUN apk --no-cache add curl
+
 RUN addgroup app && adduser -S -G app app
 
 USER app
@@ -18,13 +22,11 @@ RUN npm install
 
 COPY . .
 
-#ENV DATABASE_URL="postgresql://root:root@localhost:5432/querygenie?connect_timeout=300"
+ENV DATABASE_URL=${DATABASE_URL}
 
 # initialize prisma schema
-RUN #npx prisma migrate deploy
+RUN npx prisma generate
 
 EXPOSE 5000
 
-HEALTHCHECK --interval=10s --timeout=2s --start-period=15s CMD node /app/healthcheck.js
-
-CMD npm run server:dev
+CMD ["npm", "run", "dev"]

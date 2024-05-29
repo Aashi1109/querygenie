@@ -1,6 +1,7 @@
 import { QdrantClient } from "@qdrant/js-client-rest";
 import logger from "@logger";
 import { jsstr } from "@lib/utils";
+import config from "@config";
 
 interface QdrantCollectionOptions {
   size: number;
@@ -30,7 +31,10 @@ class QdrantService {
   private qdrantClient: QdrantClient;
 
   constructor() {
-    this.qdrantClient = new QdrantClient({ url: "http://localhost:6333" });
+    this.qdrantClient = new QdrantClient({
+      port: config.QDRANT.port,
+      host: config.QDRANT.host,
+    });
   }
 
   async getAllCollections() {
