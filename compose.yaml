@@ -13,18 +13,18 @@ services:
       querygenie-server:
         condition: service_healthy
     volumes:
-      - ./data/logs:/app/logs
+      - log-data:/app/logs
 
   querygenie-server:
     build:
       context: D:/Coding/web/Projects/querygenie/server
-    image: aashishpal09/querygenie-server:1.0.0
+    image: aashishpal09/querygenie-server:1.0.1
     container_name: querygenie-server
     env_file:
       - D:/Coding/web/Projects/querygenie/server/.env.prod
     ports:
       - 5000:5000
-    restart: always
+    restart: on-failure
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:5000" ]
       interval: 30s
@@ -38,4 +38,12 @@ services:
       qdrant:
         condition: service_healthy
     volumes:
-      - ./data/logs:/app/logs
+      - log-data:/app/logs
+
+volumes:
+  log-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: D:/Coding/web/Projects/querygenie/data/logs
+      o: bind

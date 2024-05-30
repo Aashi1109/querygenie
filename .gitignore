@@ -5,6 +5,7 @@
 node_modules
 migrations
 data
+dist
 /log
 /logs
 .next
