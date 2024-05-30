@@ -6,10 +6,12 @@ const Page = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  const projectId = +(searchParams?.projectId as string);
+  const userId = +(searchParams?.userId as string);
   // get chatId from projectId
   const chatData = await getChatByQuery({
-    projectId: searchParams?.projectId,
-    userId: searchParams?.userId,
+    projectId: projectId,
+    userId: userId,
   });
 
   let chatId;
@@ -18,10 +20,7 @@ const Page = async ({
 
   if (!chatData?.data?.length) {
     // chat not present create one
-    const chatCreateResult = await createChat(
-      searchParams?.projectId,
-      searchParams?.userId,
-    );
+    const chatCreateResult = await createChat(projectId, userId);
 
     if (chatCreateResult?.success) {
       // chat creation failed

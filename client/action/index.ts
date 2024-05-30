@@ -2,6 +2,7 @@
 
 import config from "@/config";
 import { formQueryUrl } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 // user functions
 const getUserByQuery = async (query: any) => {
@@ -76,7 +77,9 @@ const createProject = async (
     }),
   });
 
-  return await response.json();
+  const data = await response.json();
+  revalidatePath("/projects");
+  return data;
 };
 
 const updateProject = async (
@@ -138,7 +141,7 @@ const getChatByQuery = async (query: any) => {
 // messages actions
 const createMessage = async (
   chatId: number,
-  userId: string,
+  userId: number,
   query: string,
   answer?: string,
 ) => {

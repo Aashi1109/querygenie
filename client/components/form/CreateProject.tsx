@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { DialogClose } from "@/components/ui/dialog";
-import { IFileDetails } from "@/types";
+import { IFileDetails, IUser } from "@/types";
 import { createFileData, createProject, updateProject } from "@/action";
 import { useSession } from "next-auth/react";
 import { toast } from "@/components/ui/use-toast";
@@ -28,6 +28,7 @@ const CreateProject = () => {
   const { data } = useSession();
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<IFileDetails | null>(null);
+  const userId = (data?.user as IUser)?.id;
 
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
   const submitButtonRef = useRef<HTMLButtonElement>(null);
@@ -48,7 +49,7 @@ const CreateProject = () => {
       // create project
       const projectCreateResult = await createProject(
         values.name,
-        data?.user?.id,
+        userId,
         values.description,
       );
 
@@ -75,7 +76,7 @@ const CreateProject = () => {
               title: "Success",
               description: "Project created successfully",
             });
-            router.push(`/projects?userId=${data?.user?.id}`);
+            router.push(`/projects?userId=${userId}`);
             cancelButtonRef.current?.click();
           }
         }
@@ -152,6 +153,7 @@ const CreateProject = () => {
                     field.onChange(e);
                     handleFileChange(e);
                   }}
+                  value={field.value as string}
                 />
               </FormControl>
 

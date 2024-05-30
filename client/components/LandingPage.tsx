@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { Button } from "@/components/ui/button";
 import { signIn, useSession } from "next-auth/react";
 
@@ -20,7 +20,10 @@ const LandingPage = () => {
       </p>
 
       {!data?.user && (
-        <Button className={"rounded-full mt-4"} onClick={signIn}>
+        <Button
+          className={"rounded-full mt-4"}
+          onClick={signIn as MouseEventHandler}
+        >
           Get started
         </Button>
       )}

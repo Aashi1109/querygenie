@@ -13,7 +13,7 @@ const CardWithForm: React.FC<{
   description?: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
-}> = ({ heading, description, children }) => {
+}> = ({ heading, description, children, footer }) => {
   return (
     <Card className="w-[350px]">
       <CardHeader>

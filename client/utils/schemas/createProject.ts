@@ -5,8 +5,8 @@ import * as Yup from "yup";
 const createProjectSchema = Yup.object({
   name: Yup.string()
     .required("Project name is required")
-    .min(5, "Project name should be minimum 5 characters")
-    .max(20, "Project name should be max 20 characters"),
+    .min(3, "Project name should be minimum 3 characters")
+    .max(30, "Project name should be max 30 characters"),
   description: Yup.string().optional(),
   file: Yup.mixed()
     .required("File is required")

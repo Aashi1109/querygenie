@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ClientSafeProvider,
@@ -20,6 +20,7 @@ import FallbackAvatar from "@/components/FallbackAvatar";
 import UserProfileSheet from "@/components/UserProfileSheet";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { IUser } from "@/types";
 
 const Nav = () => {
   const { data: session } = useSession();
@@ -34,7 +35,8 @@ const Nav = () => {
   const router = useRouter();
 
   const isProjectsPage = pathname === "/projects";
-  const isChatsPage = pathname === "/chats";
+  const isChatsPage = pathname === "/chat";
+  const userId = (session?.user as IUser)?.id;
 
   useEffect(() => {
     const providersSet = async () => {
@@ -46,27 +48,25 @@ const Nav = () => {
     providersSet();
   }, []);
 
-  useEffect(() => {
-    // if (session) {
-    //   // route to projects
-    //   // if (pathname === "/projects" || pathname === "/") {
-    //   router.replace(`/projects?userId=${session?.user?.id}`);
-    //   // }
-    // } else {
-    //   // route to login
-    //   router.replace("/");
-    // }
-    if (!session?.user) router.replace("/");
-  }, [session, router]);
+  // if (session) {
+  //   // route to projects
+  //   // if (pathname === "/projects" || pathname === "/") {
+  //   router.replace(`/projects?userId=${userId}`);
+  //   // }
+  // } else {
+  //   // route to login
+  //   router.replace("/");
+  // }
+  if (!session?.user) router.replace("/");
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
       <div className={"flex-center"}>
-        {!isProjectsPage && session?.user && (
+        {isChatsPage && session?.user && (
           <TooltipWrapper tooltipText={"Back to projects"}>
             <Link
-              href={`/projects?userId=${session?.user?.id}`}
-              className={"block sm:hidden"}
+              href={`/projects?userId=${userId}`}
+              className={"block sm:hidden mr-2"}
             >
               <ChevronLeft className={"w-7 h-7"} />
             </Link>
@@ -87,10 +87,7 @@ const Nav = () => {
       {/* desktop navigation */}
       <div className="sm:flex gap-3 hidden items-center">
         {!isProjectsPage && session?.user && (
-          <Link
-            href={`/projects?userId=${session?.user?.id}`}
-            className={"underline"}
-          >
+          <Link href={`/projects?userId=${userId}`} className={"underline"}>
             Projects
           </Link>
         )}
@@ -102,11 +99,15 @@ const Nav = () => {
             {/*  Create Project*/}
             {/*</Link>*/}
             <CreateProjectActionModal />
-            <Button className="rounded-full" type="button" onClick={signOut}>
+            <Button
+              className="rounded-full"
+              type="button"
+              onClick={signOut as MouseEventHandler}
+            >
               Signout
             </Button>
             <UserProfileSheet
-              user={session.user}
+              user={session.user as IUser}
               triggerAsChild={false}
               trigger={
                 <TooltipWrapper tooltipText={session.user.name || "User"}>
@@ -139,7 +140,12 @@ const Nav = () => {
       </div>
 
       {/* mobile navigation */}
-      <div className="sm:hidden flex gap-3 relative">
+      <div className="sm:hidden flex gap-3 relative items-center">
+        {!isProjectsPage && session?.user && (
+          <Link href={`/projects?userId=${userId}`} className={"underline"}>
+            Projects
+          </Link>
+        )}
         <ToggleTheme />
 
         {session?.user ? (
@@ -169,7 +175,7 @@ const Nav = () => {
                   }}
                 >
                   <UserProfileSheet
-                    user={session.user}
+                    user={session.user as IUser}
                     trigger={<div>My profile </div>}
                     triggerAsChild={true}
                   />

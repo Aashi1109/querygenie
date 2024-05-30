@@ -6,7 +6,7 @@ import SystemChatCard from "@/components/chat/SystemChatCard";
 import { Textarea } from "@/components/ui/textarea";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { FileText, SendHorizonal } from "lucide-react";
-import { IMessage } from "@/types";
+import { IMessage, IUser } from "@/types";
 import { useSession } from "next-auth/react";
 import SystemTypingIndicator from "@/components/chat/SystemTypingIndicator";
 import {
@@ -33,7 +33,7 @@ const ChatWindow = ({
 }) => {
   const { data: session } = useSession();
 
-  const userId = session?.user?.id;
+  const userId = (session?.user as IUser).id;
 
   if (!messages) {
     messages = [];
