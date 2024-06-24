@@ -1,30 +1,54 @@
-FROM node:22-alpine3.20
+# Base stage
+FROM node:20-alpine as base
 
-RUN apk --no-cache add curl
-
-RUN addgroup app && adduser -S -G app app
-
-USER app
-
+# Install stage
+FROM base as deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package*.json ./
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-USER root
+# Generate Prisma client
+COPY prisma ./prisma
+RUN sleep 5 && npx prisma generate
 
-RUN chown -R app:app .
+# Build stage
+FROM base as builder
+WORKDIR /app
 
-USER app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-RUN npm install --production
+RUN \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-COPY ./dist .
+# Runner stage / Production image
+FROM base as runner
+WORKDIR /app
 
-COPY ./prisma prisma
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 server
+RUN apk add --no-cache curl
 
-# initialize prisma schema
-RUN npx prisma generate
+COPY --from=builder /app/dist ./dist
+COPY --from=deps /app/node_modules ./node_modules
 
-EXPOSE 5000
+RUN mkdir -p /app/dist/logs && chown -R server:nodejs /app/dist
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node index.js"]
+USER server
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://${HOSTNAME}:${PORT} || exit 1
+
+CMD ["node", "dist/index.js"]

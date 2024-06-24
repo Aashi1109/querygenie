@@ -7,9 +7,22 @@ const env = process.env.NODE_ENV || "development";
 const logDir = config.LOG_DIR;
 const logFile = path.join(logDir, "querygenie_server.log");
 
-const customFormat = format.printf(({ level, message, timestamp, service }) => {
-  return `{"asctime": "${timestamp}","service": "[${service}]", "level": "${level}", "message": "${message}"}`;
-});
+const getLabel = function (callingModule: { filename: string }) {
+  const parts = callingModule.filename.split("/");
+  return parts[parts.length - 2] + "/" + parts.pop();
+};
+
+const customFormat = format.printf(
+  ({ level, message, timestamp, service, ...temp }) => {
+    const logMessage = {
+      asctime: timestamp,
+      level: level.toUpperCase(),
+      service: service,
+      message: message,
+    };
+    return JSON.stringify(logMessage);
+  },
+);
 
 const logger = createLogger({
   level: env === "development" ? "debug" : "info",

@@ -1,13 +1,13 @@
 services:
   querygenie-client:
     build:
-      context: D:/Coding/web/Projects/querygenie/client
+      context: C:/Data/Coding/web/Projects/querygenie/client
     image: aashishpal09/querygenie-client:1.0.0
     container_name: querygenie-client
     env_file:
-      - D:/Coding/web/Projects/querygenie/client/.env.prod
+      - C:/Data/Coding/web/Projects/querygenie/client/.env.prod
     ports:
-      - 3000:3000
+      - "3000:3000"
     restart: always
     depends_on:
       querygenie-server:
@@ -17,19 +17,14 @@ services:
 
   querygenie-server:
     build:
-      context: D:/Coding/web/Projects/querygenie/server
+      context: C:/Data/Coding/web/Projects/querygenie/server
     image: aashishpal09/querygenie-server:1.0.1
     container_name: querygenie-server
     env_file:
-      - D:/Coding/web/Projects/querygenie/server/.env.prod
+      - C:/Data/Coding/web/Projects/querygenie/server/.env.prod
     ports:
-      - 5000:5000
+      - "5000:5000"
     restart: on-failure
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5000" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     depends_on:
       postgres:
         condition: service_healthy
@@ -45,5 +40,5 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: D:/Coding/web/Projects/querygenie/data/logs
+      device: C:/Data/Coding/web/Projects/querygenie/data/logs
       o: bind

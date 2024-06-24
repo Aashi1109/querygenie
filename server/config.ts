@@ -5,6 +5,7 @@ dotenv.config({ path: __dirname + "/.env" });
 
 const config = {
   port: process.env.PORT || 5000,
+  hostname: process.env.HOSTNAME || "localhost",
   corsOptions: {
     origin: process.env.CORS_ORIGIN.split(","),
     optionsSuccessStatus: 200,

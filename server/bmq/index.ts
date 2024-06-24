@@ -13,6 +13,7 @@ const defaultJobOptions = {
     delay: 1000,
   },
 };
+
 export const redisOptions = {
   host: config.redis.host,
   port: config.redis.port,
@@ -20,13 +21,13 @@ export const redisOptions = {
 
 export const fileProcessingQueue = new Queue(
   config.bullMQ.queues.fileProcessing,
-  { connection: redisOptions, defaultJobOptions },
+  { connection: redisOptions, defaultJobOptions }
 );
 
 export const fileProcessingWorker = new Worker(
   config.bullMQ.queues.fileProcessing,
   processFileJob,
-  { autorun: true, connection: redisOptions },
+  { autorun: true, connection: redisOptions }
 );
 
 export const pdfParserQueue = new Queue(config.bullMQ.queues.pdfParing, {
@@ -79,12 +80,12 @@ fileProcessingWorker.on("failed", async (job: Job, returnValue) => {
     undefined,
     undefined,
     undefined,
-    EProcessingStages.Completed,
+    EProcessingStages.Completed
   );
 });
 
 fileProcessingWorker.on("completed", async (job, returnValue) => {
   logger.info(
-    `File Processing finished  ${jsstr(job.id)} ${jsstr(returnValue)}`,
+    `File Processing finished  ${jsstr(job.id)} ${jsstr(returnValue)}`
   );
 });

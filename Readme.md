@@ -35,3 +35,43 @@ Simply signin with app using signin button using google signin, and you are all 
   text splits them into chunks (mak chunks token size is **200** for now). This split texts is then send for embedding
   to openai. Currently, we are using **text-embedding-ada-002** model for embedding purpose. After creating embedding
   collections are created for project and embedding are saved in Qdrant database.
+
+## Docker deployment setup
+
+- For client required env variables
+    - `HOST`
+    - `PORT`
+    - `GOOGLE_CLIENT_ID`
+    - `GOOGLE_CLIENT_SECRET`
+    - `NEXTAUTH_URL`
+    - `NEXTAUTH_SECRET`
+    - `API_URL`
+    - `EMBED_QUERY_URL`
+- For server required env variables
+    - `DATABASE_URL`
+    - `PORT`
+    - `HOSTNAME`
+    - `CLOUDINARY_CLOUD_NAME`
+    - `CLOUDINARY_API_KEY`
+    - `CLOUDINARY_API_SECRET`
+    - `NODE_ENV`
+    - `CORS_ORIGIN`
+    - `REDIS_HOST`
+    - `REDIS_PORT`
+    - `OPEN_API_KEY`
+    - `MODEL_MAX_TOKENS`
+    - `CHUNK_TOKEN_SIZE`
+    - `EMBED_QUERY_URL`
+    - `QDRANT_HOST`
+    - `QDRANT_PORT`
+- Make sure that you either docker version of redis, qdrant and postgresql are installed. If running as installable
+  remove depends from querygenie-server.
+- To up the services, run the following command.
+- ```shell
+  docker compose up
+  ```
+- If services are running as docker containers include path of the docker file too.
+- ```shell
+  docker compose -f <path to services compose.yml> -f <querygenie compose.yml path> up
+
+```

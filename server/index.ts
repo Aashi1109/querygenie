@@ -24,7 +24,7 @@ import * as path from "node:path";
 import logger from "@logger";
 
 const serverAdapter = new ExpressAdapter();
-const bullBoard = createBullBoard({
+createBullBoard({
   queues: [
     new BullMQAdapter(fileProcessingQueue),
     new BullMQAdapter(pdfParserQueue),
@@ -66,7 +66,7 @@ app.use(morgan(config.morganLogFormat));
 app.use("/admin", serverAdapter.getRouter());
 
 // route to log basic information for the application
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   return res.status(200).type("json").send({
     name: "QueryGenie API",
     description: "QueryGenie backend service",
@@ -84,7 +84,7 @@ app.use(config.apiPrefixes.message, messagesRouter);
 app.use(config.apiPrefixes.query, queryRouter);
 
 // route to handle unknown request paths
-app.use("*", (req, res) => {
+app.use("*", (_, res) => {
   res.status(404).json({ message: "Requested url not found Not found" });
 });
 
@@ -95,7 +95,7 @@ app.use(prismaErrorHandler);
 // add this before app.listen
 app.use(errorHandler);
 
-app.listen(config.port, async () => {
+app.listen(+config.port, config.hostname, async () => {
   logger.info(`⚡ Server running on ${config.port}`);
   // await connectDB();
 });

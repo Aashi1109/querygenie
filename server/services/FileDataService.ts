@@ -33,7 +33,7 @@ class FileDataService {
   /**
    * Creates new file data in the database.
    * @param {string} url - The URL of the file data.
-   * @param {StorageTypes} storageType - The storage type of the file data.
+   * @param {EStorageTypes} storageType - The storage type of the file data.
    * @param {string} name - The name of the file data.
    * @param {string} format - The format of the file data.
    * @returns {Prisma__FileDataClient<IFileData>} A Prisma client promise that resolves with the newly created file data.

@@ -1,9 +1,11 @@
-log
-.env*
+logs
+.env
+.env.prod
 node_modules
 temp
 misc
 build
+dist
 #dist
 .git
 *.md
