@@ -44,6 +44,7 @@ const config = {
   redis: {
     host: process.env.REDIS_HOST || "localhost",
     port: +process.env.REDIS_PORT || 6379,
+    token: process.env.REDIS_TOKEN || "",
   },
   models: {
     "GPT3.5Turbo": {
@@ -64,7 +65,21 @@ const config = {
   QDRANT: {
     host: process.env.QDRANT_HOST || "localhost",
     port: +process.env.QDRANT_PORT || 6333,
+    apiKey: process.env.QDRANT_API_KEY || "",
   },
 };
+
+export const WORKER_CONNECTION_CONFIG =
+  process.env.NODE_ENV === "production"
+    ? {
+        host: config.redis.host.replace("https://", ""),
+        password: config.redis.token,
+        tls: {},
+        port: config.redis.port,
+      }
+    : {
+        host: config.redis.host,
+        port: config.redis.port,
+      };
 
 export default config;

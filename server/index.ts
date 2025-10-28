@@ -16,7 +16,7 @@ import {
 import prismaErrorHandler from "@middlewares/prismaErrorHandler";
 // bullmq dashboard config
 import { createBullBoard } from "@bull-board/api";
-import { BullMQAdapter } from "@bull-board/api/bullMQAdapter.js";
+import { BullAdapter } from "@bull-board/api/bullAdapter";
 import { ExpressAdapter } from "@bull-board/express";
 import { fileProcessingQueue, pdfParserQueue } from "@bmq";
 import * as fs from "fs";
@@ -26,8 +26,8 @@ import logger from "@logger";
 const serverAdapter = new ExpressAdapter();
 createBullBoard({
   queues: [
-    new BullMQAdapter(fileProcessingQueue),
-    new BullMQAdapter(pdfParserQueue),
+    new BullAdapter(fileProcessingQueue),
+    new BullAdapter(pdfParserQueue),
   ],
   serverAdapter: serverAdapter,
 });
@@ -47,7 +47,7 @@ app.use(
   express.urlencoded({
     extended: true,
     limit: config.express.fileSizeLimit,
-  }),
+  })
 );
 
 // write morgan logs to file
@@ -56,7 +56,7 @@ app.use(
     stream: fs.createWriteStream(path.join(config.LOG_DIR, "access.log"), {
       flags: "a",
     }),
-  }),
+  })
 );
 
 // logging request routes

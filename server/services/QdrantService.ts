@@ -32,8 +32,8 @@ class QdrantService {
 
   constructor() {
     this.qdrantClient = new QdrantClient({
-      port: config.QDRANT.port,
       host: config.QDRANT.host,
+      apiKey: config.QDRANT.apiKey,
     });
   }
 

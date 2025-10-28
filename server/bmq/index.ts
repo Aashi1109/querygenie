@@ -1,4 +1,4 @@
-import config from "@config";
+import config, { WORKER_CONNECTION_CONFIG } from "@config";
 import { Job, Queue, Worker } from "bullmq";
 import logger from "@logger";
 import { parserPdf, processFileJob } from "@lib/helpers";
@@ -14,29 +14,24 @@ const defaultJobOptions = {
   },
 };
 
-export const redisOptions = {
-  host: config.redis.host,
-  port: config.redis.port,
-};
-
 export const fileProcessingQueue = new Queue(
   config.bullMQ.queues.fileProcessing,
-  { connection: redisOptions, defaultJobOptions }
+  { connection: WORKER_CONNECTION_CONFIG, defaultJobOptions }
 );
 
 export const fileProcessingWorker = new Worker(
   config.bullMQ.queues.fileProcessing,
   processFileJob,
-  { autorun: true, connection: redisOptions }
+  { autorun: true, connection: WORKER_CONNECTION_CONFIG }
 );
 
 export const pdfParserQueue = new Queue(config.bullMQ.queues.pdfParing, {
-  connection: redisOptions,
+  connection: WORKER_CONNECTION_CONFIG,
   defaultJobOptions,
 });
 
 const pdfParserWorker = new Worker(config.bullMQ.queues.pdfParing, parserPdf, {
-  connection: redisOptions,
+  connection: WORKER_CONNECTION_CONFIG,
 });
 
 pdfParserWorker.on("failed", (job, returnValue) => {
