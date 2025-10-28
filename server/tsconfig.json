@@ -6,20 +6,12 @@
     "outDir": "dist",
     "sourceRoot": ".",
     "baseUrl": "./",
+    "skipLibCheck": true,
     "paths": {
-      "*": [
-        "node_modules/*"
-      ],
-      "@*": [
-        "./*"
-      ]
+      "*": ["node_modules/*"],
+      "@*": ["./*"]
     }
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "misc"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "misc"]
 }
