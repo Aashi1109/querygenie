@@ -1,8 +1,8 @@
-import {GetByFilterOptions} from "@definitions/types";
+import { GetByFilterOptions } from "@definitions/types";
 import logger from "@logger";
 import callsite from "callsite";
-import {Prisma} from "@prisma/client";
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
+import { Chat, Message, Project, User, Vector } from "@prisma/generated";
 
 /**
  * Queries a particular model based on different params passed to it
@@ -14,13 +14,8 @@ import {v4 as uuidv4} from "uuid";
 export function getByFilter<T>(
   model: any,
   filter: any,
-  options?: GetByFilterOptions,
-):
-  | Prisma.Prisma__ChatClient<T>
-  | Prisma.Prisma__ProjectClient<T>
-  | Prisma.Prisma__UserClient<T>
-  | Prisma.Prisma__VectorClient<T>
-  | Prisma.Prisma__MessageClient<T> {
+  options?: GetByFilterOptions
+): T extends Chat | Project | User | Vector | Message ? T : never {
   try {
     const { limit, sortBy, sortOrder, pageNumber = 1, not } = options || {};
     const skip = limit ? (pageNumber - 1) * limit : 0;

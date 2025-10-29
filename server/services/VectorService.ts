@@ -2,7 +2,7 @@ import { IVector } from "@definitions/types";
 import prisma from "@prisma";
 import { Prisma } from "@prisma/client";
 import { getByFilter } from "@lib/utils";
-import Prisma__VectorClient = Prisma.Prisma__VectorClient;
+import { Vector } from "@prisma/generated";
 
 class VectorService {
   /**
@@ -10,7 +10,7 @@ class VectorService {
    * @param {number} id - The ID of the vector to retrieve.
    * @returns {Prisma.Prisma__VectorClient<IVector>} A Prisma client promise that resolves with the retrieved vector if found, or null.
    */
-  static getById(id: number): Prisma__VectorClient<IVector> {
+  static getById(id: number) {
     return prisma.vector.findUnique({
       where: { id },
     });
@@ -22,10 +22,7 @@ class VectorService {
    * @param {string} vectorId - The unique ID of the vector.
    * @returns {Prisma.Prisma__VectorClient<IVector>} A Prisma client promise that resolves with the newly created vector.
    */
-  static create(
-    projectId: number,
-    vectorId?: string,
-  ): Prisma__VectorClient<IVector> {
+  static create(projectId: number, vectorId?: string) {
     const data = {
       projectId: projectId,
     };
@@ -48,8 +45,8 @@ class VectorService {
     vectorData: {
       projectId: number;
       vectorId: string;
-    }[],
-  ): Prisma.PrismaPromise<Prisma.BatchPayload> {
+    }[]
+  ) {
     return prisma.vector.createMany({ data: vectorData });
   }
 
@@ -61,11 +58,7 @@ class VectorService {
    * @returns {Prisma.Prisma__VectorClient<IVector>} A Prisma client promise that resolves with the updated vector.
    * @throws {Error} Throws an error if the update fails for any other reason.
    */
-  static updateById(
-    id: number,
-    projectId: number,
-    vectorId: string,
-  ): Prisma__VectorClient<IVector> {
+  static updateById(id: number, projectId: number, vectorId: string) {
     return prisma.vector.update({
       where: {
         id,
@@ -83,7 +76,7 @@ class VectorService {
    * @returns {Prisma.Prisma__VectorClient<IVector>} A Prisma client promise that resolves once the vector is deleted.
    * @throws {Error} Throws an error if the vector with the specified ID is not found.
    */
-  static deleteById(id: number): Prisma__VectorClient<IVector> {
+  static deleteById(id: number) {
     return prisma.vector.delete({ where: { id } });
   }
 
@@ -111,8 +104,8 @@ class VectorService {
     sortBy?: "createdAt" | "updatedAt",
     sortOrder?: "asc" | "desc",
     pageNumber?: number,
-    not?: number,
-  ): Prisma__VectorClient<IVector[]> {
+    not?: number
+  ) {
     pageNumber ??= 1;
 
     return getByFilter<IVector[]>(prisma.vector, filter, {
@@ -121,7 +114,7 @@ class VectorService {
       sortOrder,
       pageNumber,
       not,
-    }) as Prisma__VectorClient<IVector[]>;
+    }) as Vector[];
   }
 }
 

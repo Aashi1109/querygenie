@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { ClientError } from "@exceptions";
-import { Prisma } from "@prisma/client";
 import logger from "@logger";
+import { Prisma } from "@prisma/generated";
 import PrismaClientKnownRequestError = Prisma.PrismaClientKnownRequestError;
 
 const handlePrismaError = (
   err: any,
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   console.error(err);
   logger.error(err.stack);
@@ -21,7 +21,7 @@ const handlePrismaError = (
     case "P2002":
       // handling duplicate key errors
       clientError = new ClientError(
-        `Duplicate field value: ${err.meta?.field_name}`,
+        `Duplicate field value: ${err.meta?.field_name}`
       );
       break;
     case "P2014":
@@ -31,7 +31,7 @@ const handlePrismaError = (
     case "P2003":
       // handling invalid data errors
       clientError = new ClientError(
-        `Invalid input data or invalid foreign key provided: ${err.meta?.field_name}`,
+        `Invalid input data or invalid foreign key provided: ${err.meta?.field_name}`
       );
       break;
     default:

@@ -1,8 +1,6 @@
-import { IMessage } from "@definitions/types";
-import { Prisma } from "@node_modules/.prisma/client";
 import prisma from "@prisma";
 import { getByFilter } from "@lib/utils";
-import Prisma__MessageClient = Prisma.Prisma__MessageClient;
+import { Message } from "@prisma/generated";
 
 class MessageService {
   /**
@@ -10,7 +8,7 @@ class MessageService {
    * @param {number} id - The ID of the message to retrieve.
    * @returns {Prisma__MessageClient<IMessage>} A Prisma client promise that resolves with the retrieved message if found, or null.
    */
-  static getById(id: number): Prisma__MessageClient<IMessage> {
+  static getById(id: number) {
     return prisma.message.findUnique({
       where: { id },
     });
@@ -22,7 +20,7 @@ class MessageService {
    * @returns {Prisma__MessageClient<IMessage>} A Prisma client promise that resolves once the message is deleted.
    * @throws {Error} Throws an error if the message with the specified ID is not found.
    */
-  static deleteById(id: number): Prisma__MessageClient<IMessage> {
+  static deleteById(id: number) {
     return prisma.message.delete({ where: { id } });
   }
 
@@ -40,8 +38,8 @@ class MessageService {
     query: string,
     answer?: string,
     messageId?: number,
-    userId?: number,
-  ): Prisma__MessageClient<IMessage> {
+    userId?: number
+  ) {
     const data = {
       chatId,
       query,
@@ -75,8 +73,8 @@ class MessageService {
     id: number,
     query: string,
     answer?: string,
-    regeneratedFor?: number,
-  ): Prisma__MessageClient<IMessage> {
+    regeneratedFor?: number
+  ) {
     return prisma.message.update({
       where: {
         id,
@@ -113,8 +111,8 @@ class MessageService {
     sortBy?: "createdAt" | "updatedAt",
     sortOrder?: "asc" | "desc",
     pageNumber?: number,
-    not?: number,
-  ): Prisma__MessageClient<IMessage[]> {
+    not?: number
+  ) {
     pageNumber ??= 1;
     return getByFilter(prisma.message, filter, {
       limit,
@@ -122,7 +120,7 @@ class MessageService {
       sortOrder,
       pageNumber,
       not,
-    }) as Prisma__MessageClient<IMessage[]>;
+    }) as Message[];
   }
 }
 

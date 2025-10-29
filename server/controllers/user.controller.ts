@@ -1,6 +1,6 @@
-import {Request, Response} from "express";
-import {ClientError, NotFoundError} from "@exceptions";
-import {UserService} from "@services";
+import { Request, Response } from "express";
+import { ClientError, NotFoundError } from "@exceptions";
+import { UserService } from "@services";
 
 /**
  * Get user data by ID.
@@ -42,7 +42,7 @@ const createUser = async (req: Request, res: Response): Promise<Response> => {
     username,
     name,
     email,
-    image,
+    image
   );
 
   return res.status(201).json({ data: createdUser, success: true });
@@ -85,7 +85,7 @@ const getUserByQuery = async (req: Request, res: Response) => {
     sortBy !== "createdAt" && sortBy !== "updatedAt" ? null : sortBy,
     sortOrder !== "asc" && sortOrder !== "desc" ? null : sortOrder,
     +pageNumber,
-    +not,
+    +not
   );
 
   return res.json({ success: true, data: users });
@@ -100,7 +100,7 @@ const getUserByQuery = async (req: Request, res: Response) => {
  */
 const deleteUserById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<Response> => {
   const { id } = req.params;
 
@@ -134,7 +134,7 @@ const updateUserById = async (req: Request, res: Response) => {
     +id,
     username,
     name || existingUser.name,
-    image || existingUser.image,
+    image || existingUser.image
   );
 
   return res.status(200).json({ data: updatedUser, success: true });

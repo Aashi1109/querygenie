@@ -1,9 +1,7 @@
-import { IFileData } from "@definitions/types";
 import prisma from "@prisma";
-import { Prisma } from "@prisma/client";
 import { EStorageTypes } from "@definitions/enums";
 import { getByFilter } from "@lib/utils";
-import Prisma__FileDataClient = Prisma.Prisma__FileDataClient;
+import { FileData } from "@prisma/generated";
 
 /**
  * Service class for FileData.
@@ -14,7 +12,7 @@ class FileDataService {
    * @param {number} id - The ID of the file data to retrieve.
    * @returns {Prisma__FileDataClient<IFileData>} A Prisma client promise that resolves with the retrieved file data if found, or null.
    */
-  static getFileDataById(id: number): Prisma__FileDataClient<IFileData> {
+  static getFileDataById(id: number) {
     return prisma.fileData.findUnique({
       where: { id },
     });
@@ -26,7 +24,7 @@ class FileDataService {
    * @returns {Prisma__FileDataClient<IFileData>} A Prisma client promise that resolves once the file data is deleted.
    * @throws {Error} Throws an error if the file data with the specified ID is not found.
    */
-  static deleteFileDataById(id: number): Prisma__FileDataClient<IFileData> {
+  static deleteFileDataById(id: number) {
     return prisma.fileData.delete({ where: { id } });
   }
 
@@ -42,8 +40,8 @@ class FileDataService {
     url: string,
     storageType: EStorageTypes | any,
     name: string,
-    format: string,
-  ): Prisma__FileDataClient<IFileData> {
+    format: string
+  ) {
     return prisma.fileData.create({
       data: {
         url,
@@ -69,8 +67,8 @@ class FileDataService {
     url: string,
     storageType: EStorageTypes | any,
     name: string,
-    format: string,
-  ): Prisma__FileDataClient<IFileData> {
+    format: string
+  ) {
     return prisma.fileData.update({
       where: {
         id,
@@ -93,7 +91,7 @@ class FileDataService {
    * @param {"asc" | "desc"} [sortOrder] - Sort order for file data.
    * @param {number} [pageNumber] - The page number for pagination.
    * @param {number} [not] - The ID not to include in results.
-   * @returns {Prisma__FileDataClient<IFileData[]>} A Prisma client promise that resolves to an array of retrieved file data objects.
+   * @returns {} A Prisma client promise that resolves to an array of retrieved file data objects.
    * @throws {Error} If there's an error fetching file data by the provided filter.
    */
   static getFileDataByFilter(
@@ -105,8 +103,8 @@ class FileDataService {
     sortBy?: "createdAt" | "updatedAt",
     sortOrder?: "asc" | "desc",
     pageNumber?: number,
-    not?: number,
-  ): Prisma__FileDataClient<IFileData[]> {
+    not?: number
+  ) {
     pageNumber ??= 1;
     return getByFilter(prisma.fileData, filter, {
       limit,
@@ -114,7 +112,7 @@ class FileDataService {
       sortOrder,
       pageNumber,
       not,
-    }) as unknown as Prisma__FileDataClient<IFileData[]>;
+    }) as FileData[];
   }
 }
 

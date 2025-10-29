@@ -49,7 +49,7 @@ export const splitTextIntoTokens = async (text: string) => {
     const queryService = new QueryService();
     const textSplitResult = queryService.splitTextIntoChunks(
       text,
-      config.models["GPT3.5Turbo"].CHUNK_TOKEN_SIZE,
+      config.models["GPT3.5Turbo"].CHUNK_TOKEN_SIZE
     );
     return { success: true, texts: textSplitResult };
   } catch (e) {
@@ -71,7 +71,7 @@ export const getEmbeddings = async (splittedTexts: string[]) => {
     const openaiService = new OpenAIService();
     const result = await openaiService.getEmbeddings(
       splittedTexts,
-      EEmbeddingModel.TextEmbeddingAda,
+      EEmbeddingModel.TextEmbeddingAda
     );
 
     return { success: true, embeddings: result, dimensions: 1536 };
@@ -116,7 +116,9 @@ export const processFileJob = async (job: Job) => {
           id: projectId,
         });
         logger.debug(
-          `Project retrieved for projectId ${projectId} -> ${jsstr(projectData)}`,
+          `Project retrieved for projectId ${projectId} -> ${jsstr(
+            projectData
+          )}`
         );
 
         if (!projectData?.length)
@@ -129,7 +131,7 @@ export const processFileJob = async (job: Job) => {
         if (!pData.collectionId) {
           logger.warn("Collection not present for project " + projectId);
           logger.info(
-            `Creating collection with name ${insertCollectionId}, for project ${projectId}`,
+            `Creating collection with name ${insertCollectionId}, for project ${projectId}`
           );
 
           const pCIdUpdateResult = await ProjectService.updateProject(
@@ -138,7 +140,7 @@ export const processFileJob = async (job: Job) => {
             pData.description,
             pData.fileDataId,
             pData.processingStage,
-            insertCollectionId,
+            insertCollectionId
           );
 
           logger.debug(`Project updated result: ${jsstr(pCIdUpdateResult)}`);
@@ -148,18 +150,18 @@ export const processFileJob = async (job: Job) => {
             {
               size: collectionDimensions,
               distance: "Dot",
-            },
+            }
           );
 
           if (result) {
             logger.info(
-              `Collection created with name ${insertCollectionId}, for project ${projectId}`,
+              `Collection created with name ${insertCollectionId}, for project ${projectId}`
             );
           }
         } else {
           insertCollectionId = pData?.collectionId;
           logger.info(
-            `Using existing collection with name ${insertCollectionId}, for project ${projectId}`,
+            `Using existing collection with name ${insertCollectionId}, for project ${projectId}`
           );
         }
         const chunkedTexts = splittedTextResp?.texts;
@@ -172,13 +174,13 @@ export const processFileJob = async (job: Job) => {
               projectId: projectId,
               text: chunkedTexts[index],
             },
-          }),
+          })
         );
 
         // save vectors to collection
         const result = await qdrantService.upsertPoints(
           insertCollectionId,
-          formattedPointsData as any,
+          formattedPointsData as any
         );
         if (result?.status) {
           logger.info("Successfully saved points into collection %s", result);
@@ -187,12 +189,13 @@ export const processFileJob = async (job: Job) => {
             (data: { id: string }) => ({
               vectorId: data.id,
               projectId: +projectId,
-            }),
+            })
           );
-          const vectorCreationResult =
-            await VectorService.createBulk(vectorFormattedData);
+          const vectorCreationResult = await VectorService.createBulk(
+            vectorFormattedData
+          );
           logger.info(
-            `Vector inserted into database ${jsstr(vectorCreationResult)}`,
+            `Vector inserted into database ${jsstr(vectorCreationResult)}`
           );
           // update project status to updated
           const projectUpdateResult = await ProjectService.updateProject(
@@ -200,7 +203,7 @@ export const processFileJob = async (job: Job) => {
             pData.name,
             pData.description,
             pData.fileDataId,
-            EProcessingStages.Completed,
+            EProcessingStages.Completed
           );
           logger.debug(`Project updated result: ${jsstr(projectUpdateResult)}`);
           return { vectorCount: vectorCreationResult.count };

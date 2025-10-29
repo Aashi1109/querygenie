@@ -7,7 +7,9 @@ migrations
 data
 dist
 /log
-/logs
+**/logs/
 .next
+
+**/prisma/generated
 
 !.env.example

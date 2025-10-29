@@ -1,9 +1,8 @@
-import { IProject } from "@definitions/types";
 import prisma from "@prisma";
-import { Prisma } from "@prisma/client";
 import { getByFilter } from "@lib/utils";
 import { EProcessingStages } from "@definitions/enums";
-import Prisma__ProjectClient = Prisma.Prisma__ProjectClient;
+import { IProject } from "@definitions/types";
+import { Project } from "@prisma/generated";
 
 class ProjectService {
   /**
@@ -11,7 +10,7 @@ class ProjectService {
    * @param {number} id - The ID of the project to retrieve.
    * @returns {Prisma.Prisma__ProjectClient<IProject>} A Prisma client promise that resolves with the retrieved project if found, or null.
    */
-  static getProjectById(id: number): Prisma__ProjectClient<IProject> {
+  static getProjectById(id: number) {
     return prisma.project.findUnique({
       where: { id },
     });
@@ -33,8 +32,8 @@ class ProjectService {
     userId: number,
     fileDataId?: number,
     processingStage?: EProcessingStages | any,
-    collectionId?: string,
-  ): Prisma__ProjectClient<IProject> {
+    collectionId?: string
+  ) {
     const data = {
       description,
       name,
@@ -65,8 +64,8 @@ class ProjectService {
     description: string,
     fileDataId: number,
     processingStage?: EProcessingStages | any,
-    collectionId?: string,
-  ): Prisma__ProjectClient<IProject> {
+    collectionId?: string
+  ) {
     const data = {
       name,
       description,
@@ -89,7 +88,7 @@ class ProjectService {
    * @returns {Prisma.Prisma__ProjectClient<IProject>} A Prisma client promise that resolves once the project is deleted.
    * @throws {Error} Throws an error if the project with the specified ID is not found.
    */
-  static deleteProjectById(id: number): Prisma__ProjectClient<IProject> {
+  static deleteProjectById(id: number) {
     return prisma.project.delete({ where: { id } });
   }
 
@@ -117,8 +116,8 @@ class ProjectService {
     sortBy?: "createdAt" | "updatedAt",
     sortOrder?: "asc" | "desc",
     pageNumber?: number,
-    not?: number,
-  ): Prisma.Prisma__ProjectClient<IProject[]> {
+    not?: number
+  ) {
     pageNumber ??= 1;
     // ts-ignore
     return getByFilter<IProject[]>(prisma.project, filter, {
@@ -127,7 +126,7 @@ class ProjectService {
       sortOrder,
       pageNumber,
       not,
-    }) as Prisma__ProjectClient<IProject[]>;
+    }) as Project[];
   }
 }
 

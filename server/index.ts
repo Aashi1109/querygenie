@@ -16,20 +16,21 @@ import {
 import prismaErrorHandler from "@middlewares/prismaErrorHandler";
 // bullmq dashboard config
 import { createBullBoard } from "@bull-board/api";
-import { BullAdapter } from "@bull-board/api/bullAdapter";
+import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
 import { ExpressAdapter } from "@bull-board/express";
 import { fileProcessingQueue, pdfParserQueue } from "@bmq";
 import * as fs from "fs";
 import * as path from "node:path";
 import logger from "@logger";
+import { IServerAdapter } from "@bull-board/api/typings/app";
 
 const serverAdapter = new ExpressAdapter();
 createBullBoard({
   queues: [
-    new BullAdapter(fileProcessingQueue),
-    new BullAdapter(pdfParserQueue),
+    new BullMQAdapter(fileProcessingQueue),
+    new BullMQAdapter(pdfParserQueue),
   ],
-  serverAdapter: serverAdapter,
+  serverAdapter: serverAdapter as unknown as IServerAdapter,
 });
 
 serverAdapter.setBasePath("/admin");

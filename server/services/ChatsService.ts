@@ -1,8 +1,7 @@
 import { IChat } from "@definitions/types";
 import prisma from "@prisma";
-import { Prisma } from "@prisma/client";
 import { getByFilter } from "@lib/utils";
-import Prisma__ChatClient = Prisma.Prisma__ChatClient;
+import { Chat } from "@prisma/generated";
 
 class ChatService {
   /**
@@ -10,7 +9,7 @@ class ChatService {
    * @param {number} id - The ID of the chat to retrieve.
    * @returns {Prisma.Prisma__ChatClient<IChat>} A Prisma client promise that resolves with the retrieved chat if found, or null.
    */
-  static getChatById(id: number): Prisma__ChatClient<IChat> {
+  static getChatById(id: number) {
     return prisma.chat.findUnique({
       where: { id },
     });
@@ -22,10 +21,7 @@ class ChatService {
    * @param {number} userId - The ID of the user creating the chat.
    * @returns {Prisma.Prisma__ChatClient<IChat>} A Prisma client promise that resolves with the newly created chat.
    */
-  static createChat(
-    userId: number,
-    projectId: number,
-  ): Prisma__ChatClient<IChat> {
+  static createChat(userId: number, projectId: number) {
     return prisma.chat.create({
       data: {
         userId,
@@ -40,7 +36,7 @@ class ChatService {
    * @returns {Prisma.Prisma__ChatClient<IChat>} A Prisma client promise that resolves once the chat is deleted.
    * @throws {Error} Throws an error if the chat with the specified ID is not found.
    */
-  static deleteChatById(id: number): Prisma__ChatClient<IChat> {
+  static deleteChatById(id: number) {
     return prisma.chat.delete({ where: { id } });
   }
 
@@ -68,8 +64,8 @@ class ChatService {
     sortBy?: "createdAt" | "updatedAt",
     sortOrder?: "asc" | "desc",
     pageNumber?: number,
-    not?: number,
-  ): Prisma.Prisma__ChatClient<IChat[]> {
+    not?: number
+  ) {
     pageNumber ??= 1;
 
     return getByFilter<IChat[]>(prisma.chat, filter, {
@@ -78,7 +74,7 @@ class ChatService {
       sortOrder,
       pageNumber,
       not,
-    }) as Prisma__ChatClient<IChat[]>;
+    }) as Chat[];
   }
 }
 
