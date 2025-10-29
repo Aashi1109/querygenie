@@ -5,8 +5,8 @@
     "sourceMap": true,
     "outDir": "dist",
     "sourceRoot": ".",
+    "typeRoots": ["./node_modules/@types"],
     "baseUrl": "./",
-    "skipLibCheck": true,
     "paths": {
       "*": ["node_modules/*"],
       "@*": ["./*"]

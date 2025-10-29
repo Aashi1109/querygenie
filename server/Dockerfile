@@ -15,9 +15,8 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Generate Prisma client
-COPY prisma ./prisma
-RUN sleep 5 && npx prisma generate
+
+  
 
 # Build stage
 FROM base as builder
@@ -25,6 +24,8 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+RUN npx prisma generate
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
@@ -57,6 +58,6 @@ RUN mkdir -p /app/logs /app/tmp && chown -R server:nodejs /app
 USER server
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://${HOSTNAME}:${PORT} || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 CMD curl -f http://localhost:${PORT} || exit 1
 
 CMD ["node", "index.js"]

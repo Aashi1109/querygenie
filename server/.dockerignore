@@ -10,3 +10,4 @@ dist
 .git
 *.md
 .gitignore
+logs
