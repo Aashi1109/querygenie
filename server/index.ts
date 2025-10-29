@@ -95,7 +95,7 @@ app.use(prismaErrorHandler);
 // add this before app.listen
 app.use(errorHandler);
 
-app.listen(+config.port, config.hostname, async () => {
+app.listen(+config.port, async () => {
   logger.info(`⚡ Server running on ${config.port}`);
   // await connectDB();
 });
