@@ -69,17 +69,11 @@ const config = {
   },
 };
 
-export const WORKER_CONNECTION_CONFIG =
-  process.env.NODE_ENV === "production"
-    ? {
-        host: config.redis.host.replace("https://", ""),
-        password: config.redis.token,
-        tls: {},
-        port: config.redis.port,
-      }
-    : {
-        host: config.redis.host,
-        port: config.redis.port,
-      };
+export const WORKER_CONNECTION_CONFIG = {
+  host: config.redis.host.replace("https://", ""),
+  password: config.redis.token,
+  tls: {},
+  port: config.redis.port,
+};
 
 export default config;
