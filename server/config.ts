@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import Redis from "ioredis/built";
 import * as process from "node:process";
 
 dotenv.config({ path: __dirname + "/.env" });
@@ -69,11 +70,12 @@ const config = {
   },
 };
 
-export const WORKER_CONNECTION_CONFIG = {
-  host: config.redis.host.replace("https://", ""),
+export const redis = new Redis({
+  username: "default",
+  host: config.redis.host,
   password: config.redis.token,
-  tls: {},
   port: config.redis.port,
-};
+  maxRetriesPerRequest: null,
+});
 
 export default config;
