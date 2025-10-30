@@ -53,6 +53,9 @@ RUN \
 # Copy built application
 COPY --from=builder /app/dist/ ./
 
+# Include Prisma generated client for runtime
+COPY --from=builder /app/prisma/generated ./prisma/generated
+
 RUN mkdir -p /app/logs /app/tmp && chown -R server:nodejs /app
 
 USER server

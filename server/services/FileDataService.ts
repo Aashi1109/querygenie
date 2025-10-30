@@ -1,7 +1,7 @@
 import prisma from "@prisma";
 import { EStorageTypes } from "@definitions/enums";
 import { getByFilter } from "@lib/utils";
-import { FileData } from "@prisma/generated";
+import { FileData } from "@prisma/generated/client";
 
 /**
  * Service class for FileData.

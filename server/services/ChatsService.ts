@@ -1,7 +1,7 @@
 import { IChat } from "@definitions/types";
 import prisma from "@prisma";
 import { getByFilter } from "@lib/utils";
-import { Chat } from "@prisma/generated";
+import { Chat } from "@prisma/generated/client";
 
 class ChatService {
   /**

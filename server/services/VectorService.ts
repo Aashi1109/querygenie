@@ -1,7 +1,7 @@
 import { IVector } from "@definitions/types";
 import prisma from "@prisma";
 import { getByFilter } from "@lib/utils";
-import { Vector } from "@prisma/generated";
+import { Vector } from "@prisma/generated/client";
 
 class VectorService {
   /**

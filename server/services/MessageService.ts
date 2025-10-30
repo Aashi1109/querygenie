@@ -1,6 +1,6 @@
 import prisma from "@prisma";
 import { getByFilter } from "@lib/utils";
-import { Message } from "@prisma/generated";
+import { Message } from "@prisma/generated/client";
 
 class MessageService {
   /**

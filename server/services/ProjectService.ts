@@ -2,7 +2,7 @@ import prisma from "@prisma";
 import { getByFilter } from "@lib/utils";
 import { EProcessingStages } from "@definitions/enums";
 import { IProject } from "@definitions/types";
-import { Project } from "@prisma/generated";
+import { Project } from "@prisma/generated/client";
 
 class ProjectService {
   /**

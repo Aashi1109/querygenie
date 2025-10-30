@@ -2,7 +2,7 @@ import { GetByFilterOptions } from "@definitions/types";
 import logger from "@logger";
 import callsite from "callsite";
 import { v4 as uuidv4 } from "uuid";
-import { Chat, Message, Project, User, Vector } from "@prisma/generated";
+import { Chat, Message, Project, User, Vector } from "@prisma/generated/client";
 
 /**
  * Queries a particular model based on different params passed to it

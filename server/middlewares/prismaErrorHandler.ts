@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ClientError } from "@exceptions";
 import logger from "@logger";
-import { Prisma } from "@prisma/generated";
+import { Prisma } from "@prisma/generated/client";
 import PrismaClientKnownRequestError = Prisma.PrismaClientKnownRequestError;
 
 const handlePrismaError = (
@@ -10,7 +10,6 @@ const handlePrismaError = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err);
   logger.error(err.stack);
 
   if (!(err instanceof PrismaClientKnownRequestError)) return next(err);
